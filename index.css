@@ -1,0 +1,72 @@
+/* --- GLOBAL STYLES --- */
+body { 
+    margin: 0; font-family: 'Inter', sans-serif; 
+    color: white; height: 100vh; overflow: hidden;
+    display: flex; justify-content: center; align-items: center;
+    background: linear-gradient(120deg, #845ec2, #d65db1, #ff6f91, #ff9671, #ffc75f, #f9f871);
+    background-size: 300% 300%;
+    animation: vibrantFlow 18s ease infinite;
+}
+@keyframes vibrantFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+/* UI COMPONENTS */
+.glass-panel {
+    background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px; width: 900px; max-width: 90%;
+    padding: 50px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px;
+    box-shadow: 0 40px 80px -10px rgba(0,0,0,0.7);
+    position: relative; z-index: 10; /* Ensures it sits below chatbot */
+}
+h2 { color: #ffffff; margin-top: 0; font-weight: 700; }
+
+input.field { 
+    width: 100%; padding: 16px; background: rgba(255,255,255,0.08); 
+    border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 20px; 
+    color: #ffffff; font-size: 15px; font-weight: 500; box-sizing: border-box; 
+}
+input.field:focus { border-color: #f9f871; background: rgba(0,0,0,0.3); outline: none; }
+
+/* WEBCAM CONTAINER */
+#webgazerVideoContainer { 
+    top: 25px !important; right: 25px !important; left: auto !important;
+    width: 180px !important; height: 135px !important;
+    border: 3px solid #ffffff !important; border-radius: 16px !important; 
+    overflow: hidden !important; z-index: 9999 !important; position: fixed !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+}
+#webgazerVideoFeed { width: 100% !important; height: 100% !important; object-fit: cover !important; transform: scaleX(-1); }
+#webgazerFaceOverlay, #webgazerFaceFeedbackBox { display: none !important; }
+
+/* ALERT & CHAT */
+.nudge-alert {
+    position: absolute; top: -100px; right: -10px;
+    background: #1e293b; border: 1px solid #475569;
+    padding: 18px; border-radius: 14px; width: 280px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 50; display: flex; flex-direction: column; gap: 10px;
+}
+.nudge-alert::after {
+    content: ''; position: absolute; bottom: -8px; left: 40px; width: 16px; height: 16px; 
+    background: #1e293b; transform: rotate(45deg); border-bottom: 1px solid #475569; border-right: 1px solid #475569;
+}
+@keyframes popIn { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.chatbot-container { 
+    position: fixed; bottom: 30px; right: 30px; 
+    z-index: 200; /* High z-index keeps it ON TOP of the form */
+    width: 360px; animation: bounceUp 0.6s ease; 
+}
+@keyframes bounceUp { 0% { transform: translateY(100%); } 100% { transform: translateY(0); } }
+
+.chat-card { 
+    background: #0f172a; border: 1px solid #334155; 
+    border-radius: 20px; overflow: hidden; display: flex; 
+    flex-direction: column; height: 500px; 
+    box-shadow: 0 30px 60px -10px rgba(0,0,0,0.8); 
+}
+.chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.msg { padding: 12px 16px; border-radius: 12px; font-size: 14px; color: white; }
+.msg.bot { background: #334155; align-self: flex-start; }
+.msg.user { background: #4f46e5; align-self: flex-end; }
